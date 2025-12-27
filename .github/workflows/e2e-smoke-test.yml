@@ -46,4 +46,4 @@ jobs:
       # 5. Debug - pokaż logi jeśli coś nie działa
       - name: Show logs
         if: always()
-        run: docker-compose logs
+        run: docker compose logs
