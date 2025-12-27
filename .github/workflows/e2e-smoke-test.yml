@@ -1,0 +1,49 @@
+name: E2E Smoke Test (Docker Compose)
+
+on:
+  workflow_run:
+    workflows: ["Build and Publish Docker Image"]
+    types:
+      - completed
+
+jobs:
+  test-deployment:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 1. Logowanie do GHCR (żeby móc pobrać obraz)
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Uruchomienie aplikacji z obrazu w rejestrze
+      - name: Start containers
+        run: docker-compose up -d
+
+      # 3. Czekanie chwilę aż serwer wstanie
+      - name: Wait for server
+        run: sleep 10
+
+      # 4. Test - czy API odpowiada?
+      - name: Test endpoint
+        run: |
+          response=$(curl -s "http://localhost:3000/add?a=10&b=20")
+          echo "Response: $response"
+          if [[ "$response" == *'"result":30'* ]]; then
+            echo "Test Passed!"
+          else
+            echo "Test Failed!"
+            exit 1
+          fi
+
+      # 5. Debug - pokaż logi jeśli coś nie działa
+      - name: Show logs
+        if: always()
+        run: docker-compose logs
