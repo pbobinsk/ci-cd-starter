@@ -25,7 +25,7 @@ jobs:
 
       # 2. Uruchomienie aplikacji z obrazu w rejestrze
       - name: Start containers
-        run: docker-compose up -d
+        run: docker compose up -d
 
       # 3. Czekanie chwilę aż serwer wstanie
       - name: Wait for server
