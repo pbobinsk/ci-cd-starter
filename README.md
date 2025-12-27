@@ -1,6 +1,8 @@
 # ci-cd-starter
 CI/CD hello world
 
+Bardzo prosty workflow DevOps.
+
 Terminologia w DevOps jest dość sztywna. 
 Standardowe pojęcia.
 
