@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  calculator-app:
+    # ZAMIEŃ 'TWOJ_USER' NA SWOJĄ NAZWĘ UŻYTKOWNIKA GITHUB!
+    # Obraz zostanie pobrany z chmury
+    image: ghcr.io/pbobinsk/ci-cd-starter:main
+    ports:
+      - "3000:3000"
+    restart: always
