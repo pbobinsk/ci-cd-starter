@@ -1,3 +1,5 @@
+[![Simple CI](https://github.com/pbobinsk/ci-cd-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/pbobinsk/ci-cd-starter/actions/workflows/ci.yml)
+
 # ci-cd-starter
 CI/CD hello world
 
