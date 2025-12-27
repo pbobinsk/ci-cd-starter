@@ -1,5 +1,9 @@
 [![Simple CI](https://github.com/pbobinsk/ci-cd-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/pbobinsk/ci-cd-starter/actions/workflows/ci.yml)
 
+[![Build and Publish Docker Image](https://github.com/pbobinsk/ci-cd-starter/actions/workflows/cd.yml/badge.svg)](https://github.com/pbobinsk/ci-cd-starter/actions/workflows/cd.yml)
+
+[![E2E Smoke Test (Docker Compose)](https://github.com/pbobinsk/ci-cd-starter/actions/workflows/e2e-smoke-test.yml/badge.svg)](https://github.com/pbobinsk/ci-cd-starter/actions/workflows/e2e-smoke-test.yml)
+
 # ci-cd-starter
 CI/CD hello world
 
