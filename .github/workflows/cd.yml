@@ -1,0 +1,49 @@
+# .github/workflows/cd.yml
+name: Build and Publish Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+
+# Zdefiniujmy zmienne środowiskowe dla wygody
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }} # To wstawi 'twoj-user/ci-cd-starter'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    # Ważne: Uprawnienia do zapisu pakietów (dla GHCR)
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 1. Zaloguj się do rejestru GitHub Container Registry
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          # GITHUB_TOKEN to specjalny, tymczasowy token generowany automatycznie
+          # przez GitHuba dla każdego uruchomienia. Nie musisz go tworzyć ręcznie!
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Skonfiguruj metadane obrazu (tagi, wersje)
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      # 3. Zbuduj i wypchnij obraz
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
