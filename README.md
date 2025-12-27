@@ -26,3 +26,19 @@ Standardowe pojęcia.
 *   **`ci.yml`**: "Czy kod jest poprawny?" (Testy)
 *   **`cd.yml`**: "Zapakuj to w pudełko i wyślij do magazynu." (Budowanie obrazu)
 *   **`e2e-smoke-test.yml`**: "Włącz to i sprawdź, czy działa." (Weryfikacja/Wdrożenie)
+
+#   Rozszerzone Funkcjonalności CI/CD 
+
+W ramach rozbudowy potoku CI/CD, do projektu zostały dodane zaawansowane mechanizmy automatyzacji i bezpieczeństwa:
+1. Optymalizacja Czasu Budowania (Caching)
+Cel: Przyspieszenie procesu CI poprzez uniknięcie ponownego pobierania tych samych bibliotek przy każdym uruchomieniu.
+Realizacja: Konfiguracja akcji setup-node z parametrem cache: 'npm'. GitHub Actions przechowuje folder node_modules (lub cache npm) między uruchomieniami, dopóki plik package-lock.json się nie zmieni.
+2. Ręczne Sterowanie (Workflow Dispatch)
+Cel: Umożliwienie uruchomienia procesu wdrażania (CD) lub testów na żądanie, bez konieczności wypychania nowego kodu (np. w przypadku awarii zewnętrznego serwisu lub potrzeby ponownego wdrożenia).
+Realizacja: Dodanie wyzwalacza workflow_dispatch: do plików YAML. W interfejsie GitHub Actions pojawia się przycisk "Run workflow".
+3. DevSecOps: Skanowanie Podatności (Trivy)
+Cel: Automatyczne wykrywanie luk bezpieczeństwa (CVE) w budowanym obrazie Docker oraz w zależnościach systemowych, zanim trafią one na produkcję.
+Realizacja: Integracja narzędzia Trivy (Aqua Security) w potoku CD. Skaner analizuje warstwy obrazu i generuje raport bezpieczeństwa widoczny w logach GitHuba.
+4. Wizualizacja Stanu (Status Badges)
+Cel: Szybka informacja o stanie projektu widoczna bezpośrednio w dokumentacji.
+Realizacja: Dodanie dynamicznych "odznak" (badges) na górze pliku README, które w czasie rzeczywistym pokazują, czy ostatni build zakończył się sukcesem (passing) czy porażką (failing).
