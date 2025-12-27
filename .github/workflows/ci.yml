@@ -1,0 +1,33 @@
+# .github/workflows/ci.yml
+name: Simple CI
+
+# Kiedy ten workflow ma się uruchomić?
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Co ma zrobić?
+jobs:
+  test-app:
+    runs-on: ubuntu-latest # Użyj maszyny z Linuxem od GitHuba
+
+    steps:
+      # 1. Pobierz kod z repozytorium
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Zainstaluj Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      # 3. Zainstaluj zależności
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Uruchom testy
+      - name: Run tests
+        run: npm test
