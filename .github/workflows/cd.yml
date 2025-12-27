@@ -4,6 +4,9 @@ name: Build and Publish Docker Image
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
 
 # Zdefiniujmy zmienne środowiskowe dla wygody
 env:
